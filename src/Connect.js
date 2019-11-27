@@ -1,15 +1,6 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-
-import { 
-  Container, 
-  Button, 
-  Icon, 
-  View, 
-  Text, 
-  H2,
-} from 'native-base';
-import { Header } from 'react-navigation-stack';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {Button, Icon, H2} from 'native-base';
 
 export default class Connect extends Component {
   constructor(props) {
@@ -62,12 +53,6 @@ export default class Connect extends Component {
   }
 }
 
-// Connect.navigationOptions = {
-//   title: 'Conectar',
-//   headerRight: <Icon style={{ marginRight:15,color:'black' }} name={'document'} size={25} onPress={this.openRecord.bind(this)} />
-
-// }
-
 const styles = StyleSheet.create({
     body: {
         backgroundColor: "#FCE6A0",
@@ -88,4 +73,3 @@ const styles = StyleSheet.create({
         fontSize: 25,
     },
 });
-
