@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import SoundPlayer from 'react-native-sound-player'
+import SoundPlayer from 'react-native-sound-player';
 
 import { 
   Container, 
@@ -16,13 +16,26 @@ import {
 } from 'native-base';
 
 export default class CardRecord extends Component {
-  playSong() {
-    try {
-        SoundPlayer.play()
-    } catch (e) {
-        console.log(`error:`, e)
-    }
-  }  
+    playSong() {
+        try {
+            SoundPlayer.playSoundFile("cilada", 'mp3')
+            return true
+        } catch (e) {
+            console.log(`error:`, e)
+            return false
+        }
+    }  
+
+//   async getInfo() {
+//     try {
+//       const info = await SoundPlayer.getInfo() 
+//       console.log('getInfo', info) 
+//     //   return info
+//     } catch (e) {
+//       console.log('There is no song playing', e)
+//     //   return nil
+//     }
+//   }
 
   pauseSong() {
     try {
@@ -33,7 +46,6 @@ export default class CardRecord extends Component {
   }  
   
   componentDidMount(){
-    SoundPlayer.loadSoundFile('cilada', 'mp3')
   }
 
   render() {
@@ -75,4 +87,3 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
 });
-
