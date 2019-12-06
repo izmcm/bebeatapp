@@ -21,7 +21,7 @@ export default class Record extends Component {
     };
   }
 
-  onValueChange2(value: string) {
+  onValueChange2(value) {
     this.setState({
       selectedInstrument: value
     });

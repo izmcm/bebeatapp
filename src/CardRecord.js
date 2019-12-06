@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import SoundPlayer from 'react-native-sound-player';
 
 import { 
-  Container, 
   Button, 
   Icon, 
   View, 
@@ -11,14 +10,12 @@ import {
   Card, 
   CardItem,
   Body,
-  H2,
-  ProgressBar,
 } from 'native-base';
 
 export default class CardRecord extends Component {
-    playSong() {
+    playSong(music) {
         try {
-            SoundPlayer.playSoundFile("cilada", 'mp3')
+            SoundPlayer.playSoundFile(music, 'mp3')
             return true
         } catch (e) {
             console.log(`error:`, e)
@@ -37,20 +34,16 @@ export default class CardRecord extends Component {
 //     }
 //   }
 
-  pauseSong() {
-    try {
-        SoundPlayer.pause()
-    } catch (e) {
-        console.log(`error:`, e)
-    }
-  }  
+    pauseSong() {
+        try {
+            SoundPlayer.pause()
+        } catch (e) {
+            console.log(`error:`, e)
+        }
+    }  
   
-  componentDidMount(){
-  }
-
   render() {
     return (
-      <>
         <Card>
             <CardItem>
                 <Body>
@@ -68,7 +61,6 @@ export default class CardRecord extends Component {
                 </Body>
             </CardItem>
         </Card>
-      </>
     );
   }
 }

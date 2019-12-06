@@ -15,7 +15,7 @@
     "enzyme-adapter-react-16": "^1.15.1",
     "jetifier": "^1.6.4",
     "loadsh": "0.0.4",
-    "native-base": "^2.13.8",
+    "native-base": "^2.7.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-bluetooth-serial": "^1.0.0-rc1",
