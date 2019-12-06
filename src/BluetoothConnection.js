@@ -20,7 +20,7 @@ import BluetoothSerial from 'react-native-bluetooth-serial'
 - Para conectar a um dispositivo (pareado ou não), basta tocar no seu nome na lista.
 */
 
-export default class App extends Component<{}> {
+export default class App extends Component{
   constructor (props) {
     super(props)
     this.state = {
