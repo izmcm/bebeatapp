@@ -22,6 +22,10 @@ export default class Connect extends Component {
     this.props.navigation.navigate('Ouvir')
   }
 
+  openBluetoothConnection() {
+    this.props.navigation.navigate('BluetoothConnection')
+  }
+
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Conectar'
@@ -37,7 +41,7 @@ export default class Connect extends Component {
         </View>
 
         <View style={styles.container}>
-          <Button iconLeft rounded>
+          <Button iconLeft rounded onPress={() => this.openBluetoothConnection()}>
             <Icon name='bluetooth'/>
             <Text>conectar via bluetooth</Text>
           </Button>
