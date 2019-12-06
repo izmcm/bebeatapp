@@ -1,6 +1,13 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Button, Icon, H2} from 'native-base';
+import {StyleSheet} from 'react-native';
+import { 
+  Container, 
+  Icon, 
+  Button,
+  Text,
+  View,
+  H2
+} from 'native-base';
 
 export default class Connect extends Component {
   constructor(props) {
@@ -11,19 +18,13 @@ export default class Connect extends Component {
     this.props.navigation.navigate('Gravar')
   }
 
-  _openListen() {
+  openListen() {
     this.props.navigation.navigate('Ouvir')
   }
 
-  componentDidMount() {
-    this.props.navigation.setParams({ seeRecords: this._openListen });
-  }
-
   static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
     return {
-      title: 'Conectar',
-      headerRight: <Icon style={{ marginRight:15,color:'black' }} name={'document'} size={25} onPress={() => params.seeRecords()} />
+      title: 'Conectar'
     }
   }
   
@@ -32,7 +33,7 @@ export default class Connect extends Component {
       <>
       <Container style={styles.body}>
         <View style={styles.container}>
-          <H2 style={styles.commandText}>conecte-se ao{"\n"}seu Bebeat:</H2>
+          <H2 style={styles.commandText}>Conecte-se ao{"\n"}seu Bebeat:</H2>
         </View>
 
         <View style={styles.container}>
@@ -45,6 +46,12 @@ export default class Connect extends Component {
         <View style={styles.container}>
           <Button rounded light onPress={this.openRecord.bind(this)} accessibilityLabel="Próximo">
             <Text>próximo</Text>
+          </Button>
+        </View>
+
+        <View style={styles.container}>
+          <Button block onPress={this.openListen.bind(this)} accessibilityLabel="Gravações">
+            <Text>Gravações</Text>
           </Button>
         </View>
       </Container>

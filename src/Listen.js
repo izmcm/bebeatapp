@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-
+import CardRecord from './CardRecord';
 import { 
   Container, 
   Button, 
   Icon, 
   View, 
   Text, 
+  Card, 
+  CardItem,
+  Body,
   H2
 } from 'native-base';
 
 export default class Listen extends Component {
-  openRecord() {
-    this.props.navigation.navigate('Gravar')
-  }
-
-  openListen() {
-    this.props.navigation.navigate('Ouvir')
-  }
-
   render() {
     return (
       <>
       <Container style={styles.body}>
-       
+          <H2 style={styles.commandText}>Minhas Gravações</H2>
+          <CardRecord></CardRecord>
       </Container>
       </>
     );
@@ -46,6 +42,7 @@ const styles = StyleSheet.create({
     commandText: {
         textAlign: "center",
         fontSize: 25,
+        padding: 20,
     },
 });
 

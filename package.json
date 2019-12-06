@@ -18,6 +18,7 @@
     "react-native": "0.61.5",
     "react-native-gesture-handler": "^1.5.1",
     "react-native-mock-render": "^0.1.7",
+    "react-native-sound-player": "^0.10.3",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3"
   },
