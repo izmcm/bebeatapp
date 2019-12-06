@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import SoundPlayer from 'react-native-sound-player'
-
+const RNFS = require('react-native-fs');
+ 
 import { 
   Container, 
   Button, 
@@ -33,7 +34,8 @@ export default class CardRecord extends Component {
   }  
   
   componentDidMount(){
-    SoundPlayer.loadSoundFile('cilada', 'mp3')
+    // SoundPlayer.loadSoundFile('cilada', 'mp3')
+    SoundPlayer.loadUrl(RNFS.DocumentDirectoryPath + 'test.wav')
   }
 
   render() {
