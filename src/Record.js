@@ -30,6 +30,10 @@ export default class Record extends Component {
   openDrawer() {
     this.props.navigation.navigate('Conectar', { yourArray: this.state.selectedInstrument })
   }
+
+  goToLiveRecord(){
+    this.props.navigation.navigate('LiveRecord');
+  }
   
   render() {
     return (
@@ -58,7 +62,7 @@ export default class Record extends Component {
         </Form>
 
         <View style={styles.container}>
-          <Button iconRight rounded onPress={this.openDrawer.bind(this)} accessibilityLabel="Iniciar gravação">
+          <Button iconRight rounded onPress={() => this.goToLiveRecord()} accessibilityLabel="Iniciar gravação">
             <Text>Iniciar gravação</Text>
             <Icon name='play'/>
           </Button>
