@@ -11,13 +11,14 @@ import {
   Card, 
   CardItem,
   Body,
-  H2
+  H2,
+  ProgressBar,
 } from 'native-base';
 
 export default class CardRecord extends Component {
   playSong() {
     try {
-        SoundPlayer.playSoundFile('cilada', 'mp3')
+        SoundPlayer.play()
     } catch (e) {
         console.log(`error:`, e)
     }
@@ -30,6 +31,10 @@ export default class CardRecord extends Component {
         console.log(`error:`, e)
     }
   }  
+  
+  componentDidMount(){
+    SoundPlayer.loadSoundFile('cilada', 'mp3')
+  }
 
   render() {
     return (
