@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import SoundPlayer from 'react-native-sound-player'
-import{ 
-    Container, 
-    Button, 
-    Icon, 
-    View, 
-    Text, 
-    Card, 
-    CardItem,
-    Body,
-    H2,
-    ProgressBar,
+const RNFS = require('react-native-fs');
+ 
+import { 
+  Container, 
+  Button, 
+  Icon, 
+  View, 
+  Text, 
+  Card, 
+  CardItem,
+  Body,
+  H2,
+  ProgressBar,
 } from 'native-base';
 
 export default class CardRecord extends Component{
@@ -33,9 +35,10 @@ export default class CardRecord extends Component{
         }
     }  
   
-    componentDidMount(){
-        SoundPlayer.loadSoundFile('cilada', 'mp3')
-    }
+  componentDidMount(){
+    // SoundPlayer.loadSoundFile('cilada', 'mp3')
+    SoundPlayer.loadUrl(RNFS.DocumentDirectoryPath + 'test.wav')
+  }
 
     render() {
         return (
