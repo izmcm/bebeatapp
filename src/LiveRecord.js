@@ -37,7 +37,13 @@ export default class LiveRecord extends Component{
       minute:0,
       didPause:false,
       didStop:false,
-      recordName:''
+      recordName:'',
+      dataSending: {
+        turnOnLed: "1",
+        startRecording: "2",
+        stopRecording: "3"
+      },
+      audioStream: []
     }
   }
 
@@ -47,19 +53,6 @@ export default class LiveRecord extends Component{
       this.keepRecording()
     }else{
       this.setState({didPause:true})
-    }
-  }
-
-  constructor(props){
-    super(props);
-
-    this.state={
-      dataSending: {
-        turnOnLed: "1",
-        startRecording: "2",
-        stopRecording: "3"
-      },
-      audioStream: []
     }
   }
 
@@ -176,7 +169,7 @@ export default class LiveRecord extends Component{
       <Button title="turnOnLed" color="red" onPress={() => this.turnOnLed()}/>
       <Button title="startRecording" onPress={() => this.startRecording()}/>
       <Button title="stopRecording" onPress={() => this.stopRecording()}/>
-      </>
+      
 
       <Container style={styles.container}>
         <View>
@@ -219,6 +212,7 @@ export default class LiveRecord extends Component{
         </Form>
         }
       </Container>
+      </>
     );
   }
 }
