@@ -50,23 +50,30 @@ export default class LiveRecord extends Component{
   pauseOrPlayRecord() {
     if(this.state.didPause){
       this.setState({didPause:false})
-      this.keepRecording()
+      this.startRecordingBluetooth();
+      this.keepRecording();
     }else{
       this.setState({didPause:true})
+      this.stopRecordingBluetooth();
     }
   }
 
   componentWillMount(){
+    
+    this.startRecordingBluetooth();
+    this.keepRecording();
+
     BluetoothSerial.withDelimiter('\n').then((res)=>{
       console.log("delimiter setup",res);
-      BluetoothSerial.on('read',(data)=>{
-        this.setState({audioStream: this.state.audioStream.concat(parseInt(data.data))})
-        if(this.state.audioStream.length % 100 == 0){
-          console.log(this.state.audioStream)
+      BluetoothSerial.on('read', ({data}) => {
+        if(data.length > 0){
+          this.setState({audioStream: this.state.audioStream.concat(parseInt(data))})
+          if(this.state.audioStream.length % 100 == 0){
+            // console.log(this.state.audioStream)
+          }
         }
       })
     })
-    this.keepRecording();
   }
 
   turnOnLed(){
@@ -79,7 +86,7 @@ export default class LiveRecord extends Component{
     .catch((err) => console.log(err.message))
   }
 
-  startRecording(){
+  startRecordingBluetooth(){
     BluetoothSerial.write(this.state.dataSending.startRecording)
     .then((res) => {
       console.log(res);
@@ -89,20 +96,22 @@ export default class LiveRecord extends Component{
     .catch((err) => console.log(err.message))
   }
 
-  stopRecording(){
-    BluetoothSerial.write(this.state.dataSending.stopRecording)
-    .then(async (res) => {
-      console.log(res);
-      console.log('Successfuly wrote to device stop recording')
-      this.setState({ connected: true })
-      await this.createFile();
-    })
-    .catch((err) => console.log(err.message))
+  stopRecordingBluetooth(){
+    try {
+      BluetoothSerial.write(this.state.dataSending.stopRecording)
+      .then((res) => {
+        console.log(res);
+        console.log('Successfuly wrote to device stop recording')
+        this.setState({ connected: true })
+      })
+    } catch (error) {
+      console.log(err.message)
+    }
   }
 
   async createFile(){
     try{
-      let path = RNFS.DocumentDirectoryPath + 'test.wav';    
+      let path = RNFS.DocumentDirectoryPath + this.state.recordName;    
       const resposta = await fetch('https://us-central1-bebeat-7843c.cloudfunctions.net/rawToWav', {
         method: 'POST',
         headers: {
@@ -117,6 +126,7 @@ export default class LiveRecord extends Component{
       console.log(base64)
       const success = await RNFS.writeFile(path, base64, 'base64')
       console.log('FILE WRITTEN!');
+      this.goToListenScreen();
     } catch(error){
         console.log('An error occurred: ', error)
       } 
@@ -126,7 +136,8 @@ export default class LiveRecord extends Component{
     this.setState({
       didPause:true,
       didStop:true
-    })
+    });
+    this.stopRecordingBluetooth();
   }
 
   keepRecording(){
@@ -153,8 +164,12 @@ export default class LiveRecord extends Component{
     this.props.navigation.navigate('LiveRecord');
   }
 
-  saveRecord(){
-    console.log('chama')
+  goToListenScreen(){
+    this.props.navigation.navigate('Ouvir');
+  }
+
+  async saveRecord(){
+    await this.createFile();
   }
 
   static navigationOptions = {
@@ -165,12 +180,6 @@ export default class LiveRecord extends Component{
     const {navigate} = this.props.navigation;
     return(
       <>
-      <Button title="Gravando"/>
-      <Button title="turnOnLed" color="red" onPress={() => this.turnOnLed()}/>
-      <Button title="startRecording" onPress={() => this.startRecording()}/>
-      <Button title="stopRecording" onPress={() => this.stopRecording()}/>
-      
-
       <Container style={styles.container}>
         <View>
           <H2 style={{color:'white', fontWeight:"bold"}}>Gravando a Sessão....</H2>
@@ -186,10 +195,10 @@ export default class LiveRecord extends Component{
 
         {!this.state.didStop &&
         <View style={styles.buttonWrapper}>
-          <Button rounded style={styles.button} onPress={()=>{this.pauseOrPlayRecord();}}>
+          <Button rounded style={styles.button} onPress={()=> this.pauseOrPlayRecord()}>
             <Icon style={{color:"#DC8B7A"}} type="FontAwesome" name={this.state.didPause ? 'play' : 'pause'} />
           </Button>
-          <Button rounded style={styles.button} onPress={()=>{this.stopRecord();}}>
+          <Button rounded style={styles.button} onPress={()=> this.stopRecord()}>
             <Icon style={{color:"#DC8B7A"}} type="FontAwesome" name="stop" />
           </Button>
         </View>
