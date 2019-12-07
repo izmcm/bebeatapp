@@ -39,7 +39,7 @@ export default class Record extends Component {
     return (
       <Container style={styles.body}>
         <View style={styles.container}>
-          <H2 style={styles.commandText}>escolha o{"\n"}instrumento</H2>
+          <H2 style={styles.commandText}>Escolha o{"\n"}instrumento</H2>
         </View>
 
         <Form style={styles.container}>
