@@ -26,52 +26,69 @@ export default class Connect extends Component {
     this.props.navigation.navigate('BluetoothConnection')
   }
 
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: 'Conectar'
-    }
-  }
+  
   
   render() {
     return (
-      <>
       <Container style={styles.body}>
         <View style={styles.container}>
-          <H2 style={styles.commandText}>Conecte-se ao{"\n"}seu Bebeat:</H2>
+          <H2 style={styles.title}>CONECTAR</H2>
         </View>
 
         <View style={styles.container}>
-          <Button iconLeft rounded onPress={() => this.openBluetoothConnection()}>
-            <Icon name='bluetooth'/>
-            <Text>conectar via bluetooth</Text>
+          <H2 style={styles.commandText}>Conecte-se ao{"\n"}seu Bebeat:</H2>
+          <Button style={styles.btButton} iconLeft rounded onPress={() => this.openBluetoothConnection()}>
+            <Icon style={{color:'black'}} name='bluetooth'/>
+            <Text style={{color:'black'}}>conectar via bluetooth</Text>
           </Button>
         </View>
 
-        <View style={styles.container}>
-          <Button rounded light onPress={this.openRecord.bind(this)} accessibilityLabel="Próximo">
+        <View style={styles.bottomButtonsWrapper}>
+          <Button style={styles.bottomButton} light rounded onPress={this.openListen.bind(this)} accessibilityLabel="Gravações">
+            <Text>Gravações</Text>
+          </Button>
+          <Button style={styles.bottomButton} rounded light onPress={this.openRecord.bind(this)} accessibilityLabel="Próximo">
             <Text>próximo</Text>
           </Button>
         </View>
 
-        <View style={styles.container}>
-          <Button block onPress={this.openListen.bind(this)} accessibilityLabel="Gravações">
-            <Text>Gravações</Text>
-          </Button>
-        </View>
       </Container>
-      </>
     );
   }
 }
 
 const styles = StyleSheet.create({
     body: {
-        backgroundColor: "#FCE6A0",
+        backgroundColor:'#FCE6A0',
+        padding:80
+    },
+    title: {
+      color:'black',
+      fontFamily:'Comfortaa SemiBold',
+      fontSize:22
+    },  
+    btButton: {
+      backgroundColor:'#FCE6A0',
+      borderColor:'black',
+      borderWidth:1
     },
     container: {
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
+    },
+    bottomButtonsWrapper:{
+      display:'flex',
+      justifyContent:'center',
+      flexDirection:'row',
+      alignItems:'center',
+      
+    },
+    bottomButton:{
+      margin:5,
+      backgroundColor:'#FCE6A0',
+      borderColor:'black',
+      borderWidth:1
     },
     listenBtn: {
       flex: 0,
@@ -81,6 +98,9 @@ const styles = StyleSheet.create({
     },
     commandText: {
         textAlign: "center",
-        fontSize: 25,
+        fontSize: 20,
+        color:'#03195F',
+        fontFamily:'Comfortaa Light',
+        marginBottom:15,
     },
 });

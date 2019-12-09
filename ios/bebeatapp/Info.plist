@@ -74,6 +74,16 @@
 		<string>rubicon-icon-font.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Comfortaa-Bold.ttf</string>
+		<string>Comfortaa-Light.ttf</string>
+		<string>Comfortaa-Medium.ttf</string>
+		<string>Comfortaa-Regular.ttf</string>
+		<string>Comfortaa-SemiBold.ttf</string>
+		<string>Comfortaa Bold.ttf</string>
+		<string>Comfortaa Light.ttf</string>
+		<string>Comfortaa Medium.ttf</string>
+		<string>Comfortaa SemiBold.ttf</string>
+		<string>Comfortaa.ttf</string>
 	</array>
 </dict>
 </plist>

@@ -39,7 +39,7 @@ export default class CardRecord extends Component {
   render() {
     return (
       <>
-        <Card>
+        <Card borderRadius={10}>
             <CardItem>
                 <Body>
                 <Text style={styles.musicName}>
@@ -67,12 +67,14 @@ const styles = StyleSheet.create({
     },
     icon: {
         color: "#DC8B7A",
-        marginRight: 10
+        marginRight: 10,
+        backgroundColor:'#DC8B7A'
     },
     musicName: {
         textAlign: "left",
         fontSize: 20,
         paddingBottom: 20,
+        color:'#DC8B7A'
     },
 });
 

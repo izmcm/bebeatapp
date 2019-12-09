@@ -32,7 +32,8 @@ Listen.navigationOptions = {
 
 const styles = StyleSheet.create({
     body: {
-        backgroundColor: "#FCE6A0",
+        backgroundColor: "#DC8B7A",
+        padding:30
     },
     container: {
         flex: 1,
@@ -41,8 +42,10 @@ const styles = StyleSheet.create({
     },
     commandText: {
         textAlign: "center",
-        fontSize: 25,
+        fontSize: 22,
         padding: 20,
+        fontFamily:'Comfortaa Bold',
+        color:'white'
     },
 });
 

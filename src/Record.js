@@ -47,12 +47,11 @@ export default class Record extends Component {
             <Picker
               mode="dropdown"
               iosIcon={<Icon name="arrow-down" />}
-              style={{ width: undefined }}
               placeholder="Instrumento"
               placeholderStyle={{ color: "#03195F" }}
-              placeholderIconColor="#03195F"
               selectedValue={this.state.selectedInstrument}
               onValueChange={this.onValueChange2.bind(this)}
+              itemStyle={{ borderColor:'#D7806D'}}
             >
               <Picker.Item label="Guitarra" value="guitarra" />
               <Picker.Item label="Violão" value="violao" />
@@ -62,9 +61,8 @@ export default class Record extends Component {
         </Form>
 
         <View style={styles.container}>
-          <Button iconRight rounded onPress={() => this.goToLiveRecord()} accessibilityLabel="Iniciar gravação">
-            <Text>Iniciar gravação</Text>
-            <Icon name='play'/>
+          <Button style={styles.startButton} light rounded onPress={() => this.goToLiveRecord()} accessibilityLabel="Iniciar gravação">
+            <Text style={{textAlign:'center'}}>Iniciar gravação</Text>
           </Button>
         </View>
       </Container>
@@ -86,12 +84,19 @@ const styles = StyleSheet.create({
       alignItems: "center",
       paddingHorizontal: 50
   },
+  startButton: {
+    backgroundColor:'#FCE6A0',
+    borderWidth: 1,
+    borderColor: 'black',
+  },
   pickerStyle: {
     borderColor: "#03195F",
     borderWidth: 1
   },
   commandText: {
     textAlign: "center",
-    fontSize: 25,
+    fontSize: 22,
+    fontFamily:'Comfortaa SemiBold',
+    color:'black'
   },
 });

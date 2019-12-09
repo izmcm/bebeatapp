@@ -2,15 +2,21 @@ import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
-  Text,
-  View,
-  Button,
   FlatList,
   Switch,
   TouchableOpacity,
   ToastAndroid,
   PermissionsAndroid
 } from 'react-native';
+import { 
+  Container, 
+  Icon, 
+  Button,
+  Text,
+  View,
+  H2,
+  H1
+} from 'native-base';
 var _ = require('lodash');
 import BluetoothSerial from 'react-native-bluetooth-serial'
 
@@ -146,54 +152,20 @@ export default class App extends Component<{}> {
     
   }
 
-  turnOnLed(){
-    BluetoothSerial.write(this.state.dataSending.turnOnLed)
-    .then((res) => {
-      console.log(res);
-      console.log('Successfuly wrote to device turn on led')
-      this.setState({ connected: true })
-    })
-    .catch((err) => console.log(err.message))
-  }
-
-  startRecording(){
-    BluetoothSerial.write(this.state.dataSending.startRecording)
-    .then((res) => {
-      console.log(res);
-      console.log('Successfuly wrote to device start recording')
-      this.setState({ connected: true })
-    })
-    .catch((err) => console.log(err.message))
-  }
-
-  stopRecording(){
-    BluetoothSerial.write(this.state.dataSending.stopRecording)
-    .then((res) => {
-      console.log(res);
-      console.log('Successfuly wrote to device stop recording')
-      this.setState({ connected: true })
-    })
-    .catch((err) => console.log(err.message))
-  }
-
   render() {
 
     return (
-      <View style={styles.container}>
-      <View style={styles.toolbar}>
-            <Text style={styles.toolbarTitle}>{this.state.debugador} Bluetooth Device List</Text>
-            <View style={styles.toolbarButton}>
-              <Switch
-                value={this.state.isEnabled}
-                onValueChange={(val) => this.toggleBluetooth(val)}
-              />
-            </View>
-      </View>
-        <Button
-          onPress={this.discoverAvailableDevices.bind(this)}
-          title="Scan for Devices"
-          color="#841584"
-        />
+      <Container style={styles.container}>
+        <View style={styles.toolbar}>
+              <H1 style={styles.toolbarTitle}>{this.state.debugador} Listar os dispositivos {'\n'} pareados</H1>
+              <View style={styles.toolbarButton}>
+                <Switch
+                  value={this.state.isEnabled}
+                  onValueChange={(val) => this.toggleBluetooth(val)}
+                />
+              </View>
+        </View>
+        
         {this.state.isEnabled?
         <FlatList
         style={{flex:1}}
@@ -201,25 +173,17 @@ export default class App extends Component<{}> {
         keyExtractor={item => item.id}
         renderItem={(item) => this._renderItem(item)}
         />:null }
-        
-        <Button
-          onPress={() => this.turnOnLed()}
-          title="Ligar LED"
-          color="#841584"
-        />
 
-        <Button
-          onPress={() => this.startRecording()}
-          title="Iniciar Gravação"
-          color="#F0F"
-        />
-
-        <Button
-          onPress={() => this.stopRecording()}
-          title="Parar Gravação"
-          color="#000"
-        />
-      </View>
+        <View style={styles.bottomButtonWrapper}>
+          <Button
+            onPress={this.discoverAvailableDevices.bind(this)}
+            rounded light
+            style={styles.listOthersButton}
+          >
+            <Text style={{textAlign:'center', fontFamily:'Comfortaa'}}>Buscar outros dispositivos</Text>
+          </Button>
+        </View>
+      </Container>
     );
   }
 }
@@ -227,12 +191,21 @@ export default class App extends Component<{}> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#FCE6A0',
+    justifyContent:'space-between',
+    paddingTop: 20,
+    paddingBottom:20,
+    paddingLeft:5,
+    paddingRight:5
   },
   toolbar:{
-    paddingTop:30,
-    paddingBottom:30,
-    flexDirection:'row'
+    paddingTop:10,
+    paddingBottom:10,
+    flexDirection:'row',
+    borderColor:'black',
+    borderWidth:0,
+    borderRadius:10,
+    elevation:30
   },
   toolbarButton:{
     width: 50,
@@ -240,10 +213,11 @@ const styles = StyleSheet.create({
   },
   toolbarTitle:{
     textAlign:'center',
-    fontWeight:'bold',
+    fontFamily:'Comfortaa SemiBold',
     fontSize: 20,
     flex:1,
-    marginTop:6
+    marginTop:6,
+    lineHeight:20
   },
   deviceName: {
     fontSize: 17,
@@ -252,5 +226,16 @@ const styles = StyleSheet.create({
   deviceNameWrap: {
     margin: 10,
     borderBottomWidth:1
+  },
+  listOthersButton:{
+    width:240,
+    backgroundColor: '#FCE6A0',
+    borderColor:'black',
+    borderWidth:1,
+  },
+  bottomButtonWrapper: {
+    display:'flex',
+    justifyContent:'center',
+    flexDirection:"row"
   }
 });
