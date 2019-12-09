@@ -182,7 +182,7 @@ export default class LiveRecord extends Component{
       <>
       <Container style={styles.container}>
         <View>
-          <H2 style={{color:'white', fontWeight:"bold"}}>Gravando a Sessão....</H2>
+          <H2 style={{color:'white', fontFamily:'Comfortaa Bold', fontSize:22}}>Gravando a Sessão....</H2>
         </View>
 
         <View>
