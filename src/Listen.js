@@ -16,12 +16,10 @@ import {
 export default class Listen extends Component {
   render() {
     return (
-      <>
       <Container style={styles.body}>
           <H2 style={styles.commandText}>Minhas Gravações</H2>
           <CardRecord></CardRecord>
       </Container>
-      </>
     );
   }
 }

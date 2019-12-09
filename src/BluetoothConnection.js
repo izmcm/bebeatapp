@@ -26,7 +26,7 @@ import BluetoothSerial from 'react-native-bluetooth-serial'
 - Para conectar a um dispositivo (pareado ou não), basta tocar no seu nome na lista.
 */
 
-export default class App extends Component<{}> {
+export default class App extends Component{
   constructor (props) {
     super(props)
     this.state = {
@@ -74,16 +74,6 @@ export default class App extends Component<{}> {
       })
       BluetoothSerial.on('error', (err) => console.log(`Error: ${err.message}`))
 
-    })
-
-    BluetoothSerial.withDelimiter('\n').then((res)=>{
-      console.log("delimiter setup",res);
-      BluetoothSerial.on('read',(data)=>{
-        this.setState({audioStream: this.state.audioStream.concat(parseInt(data.data))})
-        if(this.state.audioStream.length % 100 == 0){
-          console.log(this.state.audioStream)
-        }
-      })
     })
   }
   connect (device) {

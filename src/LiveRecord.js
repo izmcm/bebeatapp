@@ -24,6 +24,11 @@ import {
 } from 'react-native';
 import { ReloadInstructions } from 'react-native/Libraries/NewAppScreen';
 
+import BluetoothSerial from 'react-native-bluetooth-serial';
+import WaveFile from 'wavefile';
+
+const RNFS = require('react-native-fs');
+
 export default class LiveRecord extends Component{
   constructor(props){
     super(props);
@@ -32,24 +37,107 @@ export default class LiveRecord extends Component{
       minute:0,
       didPause:false,
       didStop:false,
-      recordName:''
+      recordName:'',
+      dataSending: {
+        turnOnLed: "1",
+        startRecording: "2",
+        stopRecording: "3"
+      },
+      audioStream: []
     }
   }
 
   pauseOrPlayRecord() {
     if(this.state.didPause){
       this.setState({didPause:false})
-      this.keepRecording()
+      this.startRecordingBluetooth();
+      this.keepRecording();
     }else{
       this.setState({didPause:true})
+      this.stopRecordingBluetooth();
     }
+  }
+
+  componentWillMount(){
+    
+    this.startRecordingBluetooth();
+    this.keepRecording();
+
+    BluetoothSerial.withDelimiter('\n').then((res)=>{
+      console.log("delimiter setup",res);
+      BluetoothSerial.on('read', ({data}) => {
+        if(data.length > 0){
+          this.setState({audioStream: this.state.audioStream.concat(parseInt(data))})
+          if(this.state.audioStream.length % 100 == 0){
+            // console.log(this.state.audioStream)
+          }
+        }
+      })
+    })
+  }
+
+  turnOnLed(){
+    BluetoothSerial.write(this.state.dataSending.turnOnLed)
+    .then((res) => {
+      console.log(res);
+      console.log('Successfuly wrote to device turn on led')
+      this.setState({ connected: true })
+    })
+    .catch((err) => console.log(err.message))
+  }
+
+  startRecordingBluetooth(){
+    BluetoothSerial.write(this.state.dataSending.startRecording)
+    .then((res) => {
+      console.log(res);
+      console.log('Successfuly wrote to device start recording')
+      this.setState({ connected: true, audioStream: []})
+    })
+    .catch((err) => console.log(err.message))
+  }
+
+  stopRecordingBluetooth(){
+    try {
+      BluetoothSerial.write(this.state.dataSending.stopRecording)
+      .then((res) => {
+        console.log(res);
+        console.log('Successfuly wrote to device stop recording')
+        this.setState({ connected: true })
+      })
+    } catch (error) {
+      console.log(err.message)
+    }
+  }
+
+  async createFile(){
+    try{
+      let path = RNFS.DocumentDirectoryPath + this.state.recordName;    
+      const resposta = await fetch('https://us-central1-bebeat-7843c.cloudfunctions.net/rawToWav', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rawAudio: this.state.audioStream,
+        }),
+      });
+      const base64 = await resposta.json()
+      console.log(base64)
+      const success = await RNFS.writeFile(path, base64, 'base64')
+      console.log('FILE WRITTEN!');
+      this.goToListenScreen();
+    } catch(error){
+        console.log('An error occurred: ', error)
+      } 
   }
 
   stopRecord(){
     this.setState({
       didPause:true,
       didStop:true
-    })
+    });
+    this.stopRecordingBluetooth();
   }
 
   keepRecording(){
@@ -76,12 +164,12 @@ export default class LiveRecord extends Component{
     this.props.navigation.navigate('LiveRecord');
   }
 
-  componentDidMount() {
-    this.keepRecording();
+  goToListenScreen(){
+    this.props.navigation.navigate('Ouvir');
   }
 
-  saveRecord(){
-    console.log('chama')
+  async saveRecord(){
+    await this.createFile();
   }
 
   static navigationOptions = {
@@ -91,6 +179,7 @@ export default class LiveRecord extends Component{
   render(){
     const {navigate} = this.props.navigation;
     return(
+      <>
       <Container style={styles.container}>
         <View>
           <H2 style={{color:'white', fontFamily:'Comfortaa Bold', fontSize:22}}>Gravando a Sessão....</H2>
@@ -106,10 +195,10 @@ export default class LiveRecord extends Component{
 
         {!this.state.didStop &&
         <View style={styles.buttonWrapper}>
-          <Button rounded style={styles.button} onPress={()=>{this.pauseOrPlayRecord();}}>
+          <Button rounded style={styles.button} onPress={()=> this.pauseOrPlayRecord()}>
             <Icon style={{color:"#DC8B7A"}} type="FontAwesome" name={this.state.didPause ? 'play' : 'pause'} />
           </Button>
-          <Button rounded style={styles.button} onPress={()=>{this.stopRecord();}}>
+          <Button rounded style={styles.button} onPress={()=> this.stopRecord()}>
             <Icon style={{color:"#DC8B7A"}} type="FontAwesome" name="stop" />
           </Button>
         </View>
@@ -132,6 +221,7 @@ export default class LiveRecord extends Component{
         </Form>
         }
       </Container>
+      </>
     );
   }
 }

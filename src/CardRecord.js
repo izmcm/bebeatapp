@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import SoundPlayer from 'react-native-sound-player'
-
+const RNFS = require('react-native-fs');
+ 
 import { 
   Container, 
   Button, 
@@ -15,27 +16,29 @@ import {
   ProgressBar,
 } from 'native-base';
 
-export default class CardRecord extends Component {
-  playSong() {
-    try {
-        SoundPlayer.play()
-    } catch (e) {
-        console.log(`error:`, e)
-    }
-  }  
+export default class CardRecord extends Component{
+    playSong(){
+        try{
+            SoundPlayer.play()
+            return true
+        }catch(e){
+            console.log(`error:`, e)
+            return false
+        }
+    }  
 
-  pauseSong() {
-    try {
-        SoundPlayer.pause()
-    } catch (e) {
-        console.log(`error:`, e)
-    }
-  }  
+    pauseSong(){
+        try{
+            SoundPlayer.pause()
+        }catch(e){
+            console.log(`error:`, e)
+        }
+    }  
   
   componentDidMount(){
-    SoundPlayer.loadSoundFile('cilada', 'mp3')
+    // SoundPlayer.loadSoundFile('cilada', 'mp3')
+    SoundPlayer.loadUrl(RNFS.DocumentDirectoryPath + 'test.wav')
   }
-
   render() {
     return (
       <>
@@ -77,4 +80,3 @@ const styles = StyleSheet.create({
         color:'#DC8B7A'
     },
 });
-
